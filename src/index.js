@@ -13,8 +13,13 @@ const store = configureStore(persistedState);
 
 store.subscribe(() => {
   localStorage.saveState({
+    //save the whole store
+    //state: store.getState()
+
+    //selective saves
     addresses: store.getState().addresses,
-    courses: store.getState().courses
+    courses: store.getState().courses,
+    register: store.getState().register
   });
 });
 

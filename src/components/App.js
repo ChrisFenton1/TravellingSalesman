@@ -6,6 +6,8 @@ import Header from "./common/Header";
 import PageNotFound from "./PageNotFound";
 import CoursesPage from "./courses/CoursesPage";
 import AddressPage from "./address/AddressPage";
+import RegisterPage from "./account/RegisterPage";
+import LoginPage from "./account/LoginPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/about" component={AboutPage} />
         <Route path="/courses" component={CoursesPage} />
         <Route path="/address" component={AddressPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
         <Route component={PageNotFound} />
       </Switch>
     </div>
