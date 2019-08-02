@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 
 import * as addressActions from "../../redux/actions/addressActions";
+import { Redirect } from "react-router-dom";
 
 class AddressPage extends React.Component {
   state = {
@@ -16,11 +17,12 @@ class AddressPage extends React.Component {
       state: "VIC",
       zip: "",
       country: ""
-    }
+    },
+    toLoginPage: false
   };
 
-  contructor() {
-    this.addressStateRef = React.createRef();
+  constructor(props) {
+    super(props);
   }
 
   handleChange = event => {
@@ -50,6 +52,22 @@ class AddressPage extends React.Component {
   clearAddresses = event => {
     event.preventDefault();
     this.props.actions.removeAllAddresses();
+  };
+
+  getCookie = function(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   };
 
   render() {

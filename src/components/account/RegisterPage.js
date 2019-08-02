@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import { Redirect } from "react-router-dom";
 
 import * as registerActions from "../../redux/actions/registerActions";
 
@@ -11,7 +12,8 @@ class RegisterPage extends React.Component {
       username: "",
       password: "",
       confirmpassword: ""
-    }
+    },
+    toAddress: false
   };
 
   contructor() {}
@@ -49,9 +51,13 @@ class RegisterPage extends React.Component {
     }
 
     this.props.actions.addUser(user);
+    this.setState({ toAddress: true });
   };
 
   render() {
+    if (this.state.toAddress === true) {
+      return <Redirect to="/Address" />;
+    }
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>Register</h3>
