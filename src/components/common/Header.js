@@ -22,6 +22,10 @@ const Header = () => {
       <NavLink to="/address" activeStyle={activeStyle}>
         Address
       </NavLink>
+      {" | "}
+      <NavLink to="/calender" activeStyle={activeStyle}>
+        Calender View
+      </NavLink>
     </nav>
   );
 };

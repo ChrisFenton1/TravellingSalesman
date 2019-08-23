@@ -8,6 +8,7 @@ import CoursesPage from "./courses/CoursesPage";
 import AddressPage from "./address/AddressPage";
 import RegisterPage from "./account/RegisterPage";
 import LoginPage from "./account/LoginPage";
+import CalenderPage from "./calender/CalenderPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/address" component={AddressPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/calender" component={CalenderPage} />
         <Route component={PageNotFound} />
       </Switch>
     </div>
