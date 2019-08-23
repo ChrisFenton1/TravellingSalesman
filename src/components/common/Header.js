@@ -23,6 +23,14 @@ const Header = () => {
         Address
       </NavLink>
       {" | "}
+      <NavLink to="/register" activeStyle={activeStyle}>
+        Register
+      </NavLink>
+      {" | "}
+      <NavLink to="/login" activeStyle={activeStyle}>
+        Login
+      </NavLink>
+      {" | "}
       <a
         href="#"
         onClick={() => {

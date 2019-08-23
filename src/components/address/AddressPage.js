@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 
 import * as addressActions from "../../redux/actions/addressActions";
-import { Redirect } from "react-router-dom";
 
 class AddressPage extends React.Component {
   state = {
@@ -16,9 +15,9 @@ class AddressPage extends React.Component {
       city: "",
       state: "VIC",
       zip: "",
-      country: ""
-    },
-    toLoginPage: false
+      country: "",
+      date: ""
+    }
   };
 
   constructor(props) {
@@ -37,7 +36,8 @@ class AddressPage extends React.Component {
     event.preventDefault();
     const address = {
       ...this.state.address,
-      id: create_UUID()
+      id: create_UUID(),
+      username: this.getCookie("username")
     };
 
     this.props.actions.addAddress(address);
@@ -112,6 +112,9 @@ class AddressPage extends React.Component {
           >
             <option value="VIC">VIC</option>
             <option value="NSW">NSW</option>
+            <option value="NSW">SA</option>            
+            <option value="NSW">WA</option>
+            <option value="NSW">TAS</option>
           </select>
         </div>
 
@@ -123,6 +126,28 @@ class AddressPage extends React.Component {
             name="addressLine2"
             onChange={this.handleChange}
             value={this.state.address.addressLine2}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Post code</label>
+          <input
+            className="form-control"
+            type="text"
+            name="zip"
+            onChange={this.handleChange}
+            value={this.state.address.zip}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Date (DD/MM/YYYY)</label>
+          <input
+            className="form-control"
+            type="text"
+            name="date"
+            onChange={this.handleChange}
+            value={this.state.address.date}
           />
         </div>
 
