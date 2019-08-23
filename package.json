@@ -1,6 +1,6 @@
 {
   "name": "ps-redux",
-  "homepage" : "http://mel-devvsrc02/React",
+  "homepage": "http://mel-devvsrc02/React",
   "description": "React and Redux Pluralsight course by Cory House",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.dev.js --port 3000",
@@ -11,6 +11,7 @@
     "immer": "2.1.3",
     "prop-types": "15.7.2",
     "react": "16.8.4",
+    "react-datetime-picker": "^2.7.1",
     "react-dom": "16.8.4",
     "react-redux": "6.0.1",
     "react-router-dom": "5.0.0",

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import DateTimePicker from 'react-datetime-picker';
 
 import * as addressActions from "../../redux/actions/addressActions";
 
@@ -16,7 +17,8 @@ class AddressPage extends React.Component {
       state: "VIC",
       zip: "",
       country: "",
-      date: ""
+      fromDate: new Date(),
+      toDate: new Date()
     }
   };
 
@@ -28,6 +30,14 @@ class AddressPage extends React.Component {
     const address = {
       ...this.state.address,
       [event.target.name]: event.target.value
+    };
+    this.setState({ address });
+  };
+
+  handleChangeFromDate = date => {
+    const address = {
+      ...this.state.address,
+      fromDate: date
     };
     this.setState({ address });
   };
@@ -103,6 +113,17 @@ class AddressPage extends React.Component {
         </div>
 
         <div className="form-group">
+          <label>Address Line 2</label>
+          <input
+            className="form-control"
+            type="text"
+            name="addressLine2"
+            onChange={this.handleChange}
+            value={this.state.address.addressLine2}
+          />
+        </div>
+
+        <div className="form-group">
           <label>State</label>
           <select
             className="form-control"
@@ -119,17 +140,6 @@ class AddressPage extends React.Component {
         </div>
 
         <div className="form-group">
-          <label>Address Line 2</label>
-          <input
-            className="form-control"
-            type="text"
-            name="addressLine2"
-            onChange={this.handleChange}
-            value={this.state.address.addressLine2}
-          />
-        </div>
-
-        <div className="form-group">
           <label>Post code</label>
           <input
             className="form-control"
@@ -141,15 +151,25 @@ class AddressPage extends React.Component {
         </div>
 
         <div className="form-group">
-          <label>Date (DD/MM/YYYY)</label>
-          <input
-            className="form-control"
-            type="text"
-            name="date"
-            onChange={this.handleChange}
-            value={this.state.address.date}
+          <label>From</label>
+          <br/>
+          <DateTimePicker
+            name="fromdate"
+            onChange={this.handleChangeFromDate}
+            value={this.state.address.fromDate}
           />
         </div>
+
+        <div className="form-group">
+          <label>To</label>
+          <br/>
+          <DateTimePicker
+            name="toDate"
+            onChange={this.handleChangeToDate}
+            value={this.state.address.toDate}
+          />
+        </div>
+
 
         <input type="submit" value="Save" className="btn btn-primary" />
 
@@ -158,7 +178,7 @@ class AddressPage extends React.Component {
             <div className="row mt-3" key={address.id}>
               <div className="col-sm">
                 {address.id} - {address.address}, {address.streetAddress},{" "}
-                {address.addressLine2}, {address.state}
+                {address.addressLine2}, {address.state}, {address.date.toString()}
               </div>
               <div className="col-sm">
                 <button
