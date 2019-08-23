@@ -23,6 +23,30 @@ const Header = () => {
         Address
       </NavLink>
       {" | "}
+      <NavLink to="/register" activeStyle={activeStyle}>
+        Register
+      </NavLink>
+      {" | "}
+      <NavLink to="/login" activeStyle={activeStyle}>
+        Login
+      </NavLink>
+      {" | "}
+      <a
+        href="#"
+        onClick={() => {
+          var d = new Date();
+          var exdays = 365;
+          d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+          var expires = "expires=" + d.toUTCString();
+          document.cookie = "username" + "=" + ";" + expires + ";path=/";
+          //console.log(document.cookie);
+          window.location.href = "/login";
+          return;
+        }}
+      >
+        LogOut
+      </a>
+      {" | "}
       <NavLink to="/calender" activeStyle={activeStyle}>
         Calender View
       </NavLink>

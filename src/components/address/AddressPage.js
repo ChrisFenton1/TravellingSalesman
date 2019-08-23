@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
+import DateTimePicker from 'react-datetime-picker';
 
 import * as addressActions from "../../redux/actions/addressActions";
 
@@ -15,12 +16,14 @@ class AddressPage extends React.Component {
       city: "",
       state: "VIC",
       zip: "",
-      country: ""
+      country: "",
+      fromDate: new Date(),
+      toDate: new Date()
     }
   };
 
-  contructor() {
-    this.addressStateRef = React.createRef();
+  constructor(props) {
+    super(props);
   }
 
   handleChange = event => {
@@ -31,11 +34,20 @@ class AddressPage extends React.Component {
     this.setState({ address });
   };
 
+  handleChangeFromDate = date => {
+    const address = {
+      ...this.state.address,
+      fromDate: date
+    };
+    this.setState({ address });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
     const address = {
       ...this.state.address,
-      id: create_UUID()
+      id: create_UUID(),
+      username: this.getCookie("username")
     };
 
     this.props.actions.addAddress(address);
@@ -50,6 +62,22 @@ class AddressPage extends React.Component {
   clearAddresses = event => {
     event.preventDefault();
     this.props.actions.removeAllAddresses();
+  };
+
+  getCookie = function(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(";");
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   };
 
   render() {
@@ -85,19 +113,6 @@ class AddressPage extends React.Component {
         </div>
 
         <div className="form-group">
-          <label>State</label>
-          <select
-            className="form-control"
-            name="state"
-            onChange={this.handleChange}
-            value={this.state.address.state}
-          >
-            <option value="VIC">VIC</option>
-            <option value="NSW">NSW</option>
-          </select>
-        </div>
-
-        <div className="form-group">
           <label>Address Line 2</label>
           <input
             className="form-control"
@@ -108,6 +123,54 @@ class AddressPage extends React.Component {
           />
         </div>
 
+        <div className="form-group">
+          <label>State</label>
+          <select
+            className="form-control"
+            name="state"
+            onChange={this.handleChange}
+            value={this.state.address.state}
+          >
+            <option value="VIC">VIC</option>
+            <option value="NSW">NSW</option>
+            <option value="NSW">SA</option>            
+            <option value="NSW">WA</option>
+            <option value="NSW">TAS</option>
+          </select>
+        </div>
+
+        <div className="form-group">
+          <label>Post code</label>
+          <input
+            className="form-control"
+            type="text"
+            name="zip"
+            onChange={this.handleChange}
+            value={this.state.address.zip}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>From</label>
+          <br/>
+          <DateTimePicker
+            name="fromdate"
+            onChange={this.handleChangeFromDate}
+            value={this.state.address.fromDate}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>To</label>
+          <br/>
+          <DateTimePicker
+            name="toDate"
+            onChange={this.handleChangeToDate}
+            value={this.state.address.toDate}
+          />
+        </div>
+
+
         <input type="submit" value="Save" className="btn btn-primary" />
 
         <div className="container">
@@ -115,7 +178,7 @@ class AddressPage extends React.Component {
             <div className="row mt-3" key={address.id}>
               <div className="col-sm">
                 {address.id} - {address.address}, {address.streetAddress},{" "}
-                {address.addressLine2}, {address.state}
+                {address.addressLine2}, {address.state}, {address.date.toString()}
               </div>
               <div className="col-sm">
                 <button

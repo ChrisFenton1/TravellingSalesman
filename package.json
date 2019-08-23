@@ -1,8 +1,10 @@
 {
   "name": "ps-redux",
+  "homepage": "http://mel-devvsrc02/React",
   "description": "React and Redux Pluralsight course by Cory House",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.dev.js --port 3000"
+    "start": "webpack-dev-server --config webpack.config.dev.js --port 3000",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "bootstrap": "4.3.1",
@@ -10,9 +12,11 @@
     "prop-types": "15.7.2",
     "react": "16.8.4",
     "react-big-scheduler": "^0.2.7",
+    "react-datetime-picker": "^2.7.1",
     "react-dom": "16.8.4",
     "react-redux": "6.0.1",
     "react-router-dom": "5.0.0",
+    "react-scripts": "^3.0.1",
     "react-toastify": "4.5.2",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
@@ -27,14 +31,14 @@
     "cssnano": "4.1.10",
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.11.2",
-    "eslint": "5.15.2",
+    "eslint": "5.16.0",
     "eslint-loader": "2.1.2",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-react": "7.12.4",
     "fetch-mock": "7.3.1",
     "html-webpack-plugin": "3.2.0",
     "http-server": "0.11.1",
-    "jest": "24.5.0",
+    "jest": "24.7.1",
     "json-server": "0.14.2",
     "mini-css-extract-plugin": "0.5.0",
     "node-fetch": "^2.3.0",
@@ -92,5 +96,17 @@
       }
     },
     "root": true
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

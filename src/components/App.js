@@ -9,6 +9,7 @@ import AddressPage from "./address/AddressPage";
 import RegisterPage from "./account/RegisterPage";
 import LoginPage from "./account/LoginPage";
 import CalenderPage from "./calender/CalenderPage";
+import AuthRequireRoute from "./AuthRequireRoute";
 
 function App() {
   return (
@@ -16,9 +17,9 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route path="/about" component={AboutPage} />
-        <Route path="/courses" component={CoursesPage} />
-        <Route path="/address" component={AddressPage} />
+        <AuthRequireRoute path="/about" component={AboutPage} />
+        <AuthRequireRoute path="/courses" component={CoursesPage} />
+        <AuthRequireRoute path="/address" component={AddressPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/calender" component={CalenderPage} />
