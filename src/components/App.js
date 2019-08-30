@@ -9,6 +9,7 @@ import AddressPage from "./address/AddressPage";
 import RegisterPage from "./account/RegisterPage";
 import LoginPage from "./account/LoginPage";
 import CalenderPage from "./calender/CalenderPage";
+import UserProfilePage from "./userprofile/UserProfilePage";
 import AuthRequireRoute from "./AuthRequireRoute";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/calender" component={CalenderPage} />
+        <AuthRequireRoute path="/userprofile" component={UserProfilePage} />
         <Route component={PageNotFound} />
 
         {/* <Route exact path="/edit-address" component={() => <Address addressId={} />} /> */}
