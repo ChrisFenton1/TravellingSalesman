@@ -3,3 +3,4 @@ export const ADD_ADDRESS = "ADD_ADDRESS";
 export const DELETE_ADDRESS = "DELETE_ADDRESS";
 export const DELETE_ALL_ADDRESSES = "DELETE_ALL_ADDRESSES";
 export const ADD_USER = "ADD_USER";
+export const ADD_USER_PROFILE = "ADD_USER_PROFILE";

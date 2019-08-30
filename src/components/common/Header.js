@@ -50,6 +50,10 @@ const Header = () => {
       <NavLink to="/calender" activeStyle={activeStyle}>
         Calender View
       </NavLink>
+      {" | "}
+      <NavLink to="/userprofile" activeStyle={activeStyle}>
+        User Profile
+      </NavLink>
     </nav>
   );
 };

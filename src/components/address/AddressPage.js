@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
-import DateTimePicker from 'react-datetime-picker';
+import DateTimePicker from "react-datetime-picker";
 
 import * as addressActions from "../../redux/actions/addressActions";
 
@@ -133,7 +133,7 @@ class AddressPage extends React.Component {
           >
             <option value="VIC">VIC</option>
             <option value="NSW">NSW</option>
-            <option value="NSW">SA</option>            
+            <option value="NSW">SA</option>
             <option value="NSW">WA</option>
             <option value="NSW">TAS</option>
           </select>
@@ -152,7 +152,7 @@ class AddressPage extends React.Component {
 
         <div className="form-group">
           <label>From</label>
-          <br/>
+          <br />
           <DateTimePicker
             name="fromdate"
             onChange={this.handleChangeFromDate}
@@ -162,14 +162,13 @@ class AddressPage extends React.Component {
 
         <div className="form-group">
           <label>To</label>
-          <br/>
+          <br />
           <DateTimePicker
             name="toDate"
             onChange={this.handleChangeToDate}
             value={this.state.address.toDate}
           />
         </div>
-
 
         <input type="submit" value="Save" className="btn btn-primary" />
 
@@ -178,7 +177,7 @@ class AddressPage extends React.Component {
             <div className="row mt-3" key={address.id}>
               <div className="col-sm">
                 {address.id} - {address.address}, {address.streetAddress},{" "}
-                {address.addressLine2}, {address.state}, {address.date.toString()}
+                {address.addressLine2}, {address.state},{" "}
               </div>
               <div className="col-sm">
                 <button

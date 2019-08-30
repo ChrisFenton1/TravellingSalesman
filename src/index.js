@@ -19,7 +19,8 @@ store.subscribe(() => {
     //selective saves
     addresses: store.getState().addresses,
     courses: store.getState().courses,
-    register: store.getState().register
+    register: store.getState().register,
+    user: store.getState().user
   });
 });
 
