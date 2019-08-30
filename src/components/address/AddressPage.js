@@ -24,6 +24,31 @@ class AddressPage extends React.Component {
 
   constructor(props) {
     super(props);
+    
+  }
+
+  componentDidMount () {
+    console.log(this.props);
+    
+    if(this.props.match == null || this.props.match.params == null)
+      return;
+
+    //const { match: { params } } = this.props; //???
+    var params = this.props.match.params;
+
+    console.log(params.addressId);
+
+    var foundAddress = this.props.addresses.find(function(element) {
+      return element.id == params.addressId;
+    });
+
+    if(foundAddress != null)
+    {
+      const address = {
+        ...foundAddress
+      };
+      this.setState({ address });
+    }
   }
 
   handleChange = event => {
@@ -38,6 +63,14 @@ class AddressPage extends React.Component {
     const address = {
       ...this.state.address,
       fromDate: date
+    };
+    this.setState({ address });
+  };
+
+  handleChangeToDate = date => {
+    const address = {
+      ...this.state.address,
+      toDate: date
     };
     this.setState({ address });
   };
@@ -83,7 +116,7 @@ class AddressPage extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <h3>Add Address</h3>
+        <h3>{this.state.address.id == "" ? 'Add Address' : 'Edit Address'}</h3>
         <div className="form-group">
           <button onClick={this.clearAddresses} className="btn btn-danger">
             Clear
@@ -178,7 +211,7 @@ class AddressPage extends React.Component {
             <div className="row mt-3" key={address.id}>
               <div className="col-sm">
                 {address.id} - {address.address}, {address.streetAddress},{" "}
-                {address.addressLine2}, {address.state}, {address.date.toString()}
+                {address.addressLine2}, {address.state}, {address.fromDate.toString()}, {address.toDate.toString()}
               </div>
               <div className="col-sm">
                 <button

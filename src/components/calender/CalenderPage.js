@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect, Route } from "react-router";
 
 //1. import
 import { PropTypes } from "prop-types";
@@ -15,25 +16,15 @@ import withDragDropContext from "./withDnDContext";
 
 class CalenderPage extends React.Component {
   state = {
-    address: {
-      id: "",
-      address: "",
-      streetAddress: "",
-      addressLine2: "",
-      city: "",
-      state: "VIC",
-      zip: "",
-      country: ""
-    }
+    viewModel: null,
+    addressId: null
   };
 
-  contructor() {
-    this.addressStateRef = React.createRef();
-  }
+  constructor(props) {
+    super(props);
 
-  render() {
     let schedulerData = new SchedulerData(
-      "2017-12-18",
+      new Date(),
       ViewTypes.Week,
       false,
       false,
@@ -46,66 +37,97 @@ class CalenderPage extends React.Component {
     );
 
     schedulerData.localeMoment.locale("en");
-    let resources = [
-      {
-        id: "r1",
-        name: "Mike"
-      },
-      {
-        id: "r2",
-        name: "Sathya"
-      },
-      {
-        id: "r3",
-        name: "Omkar"
-      }
-    ];
+    
+    this.setData(schedulerData);
+
+    this.state = {
+      viewModel: schedulerData
+    };
+  }
+
+  setData = (schedulerData) => 
+  {
+    let resources = [];
+    for (let index = 0; index < this.props.register.length; index++) {
+      resources.push({
+        id: this.props.register[index].username,
+        name: this.props.register[index].username
+      });
+      
+    }
+    
     schedulerData.setResources(resources);
 
-    let events = [
-      {
-        id: 1,
-        start: "2017-12-18 09:30:00",
-        end: "2017-12-19 23:30:00",
-        resourceId: "r1",
-        title: "I am finished",
-        bgColor: "#D9D9D9"
-      },
-      {
-        id: 2,
-        start: "2017-12-18 12:30:00",
-        end: "2017-12-18 23:30:00",
-        resourceId: "r1",
-        title: "I am not resizable",
-        resizable: false
-      },
-      {
-        id: 3,
-        start: "2017-12-19 12:30:00",
-        end: "2017-12-20 23:30:00",
-        resourceId: "r3",
-        title: "I am not movable",
-        movable: false
-      },
-      {
-        id: 4,
-        start: "2017-12-19 14:30:00",
-        end: "2017-12-20 23:30:00",
-        resourceId: "r1",
-        title: "I am not start-resizable",
-        startResizable: false
-      },
-      {
-        id: 5,
-        start: "2017-12-19 15:30:00",
-        end: "2017-12-20 23:30:00",
-        resourceId: "r2",
-        title: "R2 has recurring tasks every week on Tuesday, Friday",
-        rrule: "FREQ=WEEKLY;DTSTART=20171219T013000Z;BYDAY=TU,FR",
-        bgColor: "#f759ab"
+    let events = [];
+    for (let i = 0; i < this.props.addresses.length; i++) {
+
+      for (let j = 0; j < this.props.register.length; j++) {
+        
+        var userAddress = this.props.addresses[i];
+        let register = this.props.register[j];
+        if(userAddress.username == register.username)        
+        {
+          console.log(userAddress.address);
+
+          events.push({
+            id: userAddress.id,
+            start: this.formatDate(userAddress.fromDate), //2019-08-17T04:49:44.144Z to "2017-12-18 09:30:00",
+            end: this.formatDate(userAddress.toDate),
+            resourceId: userAddress.username,
+            title: userAddress.address
+            //resizable: false,
+            //movable: false
+          });
+        }
       }
-    ];
+    }
     schedulerData.setEvents(events);
+  }
+
+  formatDate = (dateObject) => {
+    return dateObject.toLocaleString();
+  }
+
+  nextClick = (schedulerData)=> {
+    schedulerData.next();
+    this.setData(schedulerData);
+    this.setState({
+        viewModel: schedulerData
+    });    
+  }
+
+  prevClick = (schedulerData)=> {
+    schedulerData.prev();
+    this.setData(schedulerData);
+    this.setState({
+        viewModel: schedulerData
+    });  
+  }
+
+  onViewChange = (schedulerData, view) => {
+    schedulerData.setViewType(view.viewType, view.showAgenda, view.isEventPerspective);
+    schedulerData.config.creatable = !view.isEventPerspective;
+    this.setData(schedulerData);
+    this.setState({
+        viewModel: schedulerData
+    })
+  }
+
+  eventClicked = (schedulerData, event) => {
+    var addressId = event.id;
+    
+    this.setState({
+      addressId: addressId
+    });  
+  };
+
+  render() {
+    let schedulerData = this.state.viewModel;
+
+    if(this.state.addressId != null)
+    {
+      return <Redirect to={"/editAddress/" + this.state.addressId} />;
+    }
 
     return (
       <div>
@@ -124,4 +146,28 @@ class CalenderPage extends React.Component {
   }
 }
 
-export default withDragDropContext(CalenderPage);
+CalenderPage.propTypes = {
+  addresses: PropTypes.array.isRequired,
+  register: PropTypes.array.isRequired
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    //createCourse: course => dispatch(courseActions.createCourse(course)) //map action 1 by one
+    //actions: bindActionCreators(addressActions, dispatch) //map all actions
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+     addresses: state.addresses,
+     register: state.register
+    };
+}
+
+//export default ;
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withDragDropContext(CalenderPage));

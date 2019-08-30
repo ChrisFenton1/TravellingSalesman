@@ -19,11 +19,14 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <AuthRequireRoute path="/about" component={AboutPage} />
         <AuthRequireRoute path="/courses" component={CoursesPage} />
+        <Route path="/editAddress/:addressId" component={AddressPage} />
         <AuthRequireRoute path="/address" component={AddressPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/calender" component={CalenderPage} />
         <Route component={PageNotFound} />
+
+        {/* <Route exact path="/edit-address" component={() => <Address addressId={} />} /> */}
       </Switch>
     </div>
   );

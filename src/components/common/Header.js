@@ -30,7 +30,7 @@ const Header = () => {
       <NavLink to="/login" activeStyle={activeStyle}>
         Login
       </NavLink>
-      {" | "}
+      {" | "}      
       <a
         href="#"
         onClick={() => {
