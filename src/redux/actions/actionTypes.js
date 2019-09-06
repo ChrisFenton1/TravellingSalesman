@@ -1,5 +1,6 @@
 export const CREAT_COURSE = "CREATE_COURSE";
 export const ADD_ADDRESS = "ADD_ADDRESS";
+export const EDIT_ADDRESS = "EDIT_ADDRESS";
 export const DELETE_ADDRESS = "DELETE_ADDRESS";
 export const DELETE_ALL_ADDRESSES = "DELETE_ALL_ADDRESSES";
 export const ADD_USER = "ADD_USER";

@@ -11,3 +11,7 @@ export function removeAddress(addressId) {
 export function removeAllAddresses() {
   return { type: types.DELETE_ALL_ADDRESSES };
 }
+
+export function editAddress(address) {
+  return { type: types.EDIT_ADDRESS, address: address };
+}
