@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import DateTimePicker from 'react-datetime-picker';
+import { Redirect, Route } from "react-router";
 
 import * as addressActions from "../../redux/actions/addressActions";
 
@@ -19,7 +20,8 @@ class AddressPage extends React.Component {
       country: "",
       fromDate: new Date(),
       toDate: new Date()
-    }
+    },
+    editSuccess :false
   };
 
   constructor(props) {
@@ -77,13 +79,33 @@ class AddressPage extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const address = {
-      ...this.state.address,
-      id: create_UUID(),
-      username: this.getCookie("username")
-    };
 
-    this.props.actions.addAddress(address);
+    if(this.state.address.id != "") //edit
+    {
+      const address = {
+        ...this.state.address,
+        username: this.getCookie("username")
+      };
+  
+      //console.log(address.id);
+      //console.log(address.state);
+
+      this.props.actions.editAddress(address);
+      this.setState({editSuccess : true});
+      //<Redirect to={"/calender/" + this.state.addressId} />;
+      
+
+    }
+    else{ //new 
+      const address = {
+        ...this.state.address,
+        id: create_UUID(),
+        username: this.getCookie("username")
+      };
+  
+      this.props.actions.addAddress(address);
+    }
+    
   };
 
   removeAddress = id => event => {
@@ -113,7 +135,12 @@ class AddressPage extends React.Component {
     return "";
   };
 
-  render() {
+  render() {    
+
+    if(this.state.editSuccess)
+    {
+      return <Redirect to={"/calender/" + this.state.addressId} />;
+    }
     return (
       <form onSubmit={this.handleSubmit}>
         <h3>{this.state.address.id == "" ? 'Add Address' : 'Edit Address'}</h3>
@@ -211,7 +238,7 @@ class AddressPage extends React.Component {
             <div className="row mt-3" key={address.id}>
               <div className="col-sm">
                 {address.id} - {address.address}, {address.streetAddress},{" "}
-                {address.addressLine2}, {address.state}, {address.fromDate.toString()}, {address.toDate.toString()}
+                {address.addressLine2}, {address.state}, 
               </div>
               <div className="col-sm">
                 <button
