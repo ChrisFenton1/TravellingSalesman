@@ -146,9 +146,7 @@ class UserProfilePage extends React.Component {
               <div className="col-sm-2">{user.lastname}</div>
               <div className="col-sm-2">{user.homeaddress}</div>
               <div className="col-sm-3">
-                <button onClick={() => this.editUser(user.id)}>
-                  Edit {user.firstname} {user.id}
-                </button>
+                <button onClick={() => this.editUser(user.id)}>Edit</button>
               </div>
               <div className="col-sm-3 ">
                 <button onClick={() => this.removeUser(user.id)}>Remove</button>
