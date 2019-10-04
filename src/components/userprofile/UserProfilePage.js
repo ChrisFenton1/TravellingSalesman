@@ -47,7 +47,7 @@ class UserProfilePage extends React.Component {
   };
 
   removeUser = function(userId) {
-    event.preventDefault();
+    window.event.preventDefault();
     this.props.actions.removeProfileUser(userId);
   };
 
