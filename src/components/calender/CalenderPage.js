@@ -79,7 +79,7 @@ class CalenderPage extends React.Component {
             resourceId: userAddress.username,
             title: userAddress.address,
             //resizable: false,
-            movable: true
+            //movable: true
           });
         }
       }

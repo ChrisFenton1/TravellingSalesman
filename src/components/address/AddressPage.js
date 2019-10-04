@@ -46,7 +46,13 @@ class AddressPage extends React.Component {
       const address = {
         ...foundAddress
       };
+
+      address.fromDate = new Date(address.fromDate);
+      address.toDate = new Date(address.toDate);
+
       this.setState({ address });
+
+      console.log(address);
     }
   }
 
@@ -63,6 +69,9 @@ class AddressPage extends React.Component {
       ...this.state.address,
       fromDate: date
     };
+
+    console.log(address);
+
     this.setState({ address });
   };
 
@@ -80,9 +89,11 @@ class AddressPage extends React.Component {
     if(this.state.address.id != "") //edit
     {
       const address = {
-        ...this.state.address,
-        username: this.getCookie("username")
+        ...this.state.address
+        //username: this.getCookie("username")
       };
+
+
 
       this.props.actions.editAddress(address);
       this.setState({editSuccess : true});
@@ -133,7 +144,7 @@ class AddressPage extends React.Component {
 
     if(this.state.editSuccess)
     {
-      return <Redirect to={"/calender/" + this.state.addressId} />;
+      return <Redirect to={"/calender"} />;
     }
     return (
       <form onSubmit={this.handleSubmit}>
