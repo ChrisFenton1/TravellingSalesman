@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { Redirect } from "react-router-dom";
+import DateTimePicker from "react-datetime-picker";
 
 import * as userProfileActions from "../../redux/actions/userProfileActions";
 
@@ -12,7 +13,9 @@ class UserProfilePage extends React.Component {
       id: "",
       firstname: "",
       lastname: "",
-      homeaddress: ""
+      homeaddress: "",
+      mobilenumber: "",
+      dateofbirth: new Date()
     }
   };
 
@@ -39,7 +42,9 @@ class UserProfilePage extends React.Component {
         id: existingUserId,
         firstname: updatedUser.firstname,
         lastname: updatedUser.lastname,
-        homeaddress: updatedUser.homeaddress
+        homeaddress: updatedUser.homeaddress,
+        mobilenumber: updatedUser.mobilenumber,
+        dateofbirth: updatedUser.dateofbirth
       };
       this.props.actions.removeProfileUser(existingUserId);
       this.props.actions.updateProfileUser(user);
@@ -59,6 +64,14 @@ class UserProfilePage extends React.Component {
     this.setState({ user });
   };
 
+  handleChangeDate = date => {
+    const user = {
+      ...this.state.user,
+      dateofbirth: date
+    };
+    this.setState({ user });
+  };
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -66,9 +79,15 @@ class UserProfilePage extends React.Component {
       ...this.state.user,
       [event.target.name]: event.target.value
     };
-    const foundUser = this.props.userProfile.find(
+    var foundUser = this.props.userProfile.find(
       ({ id }) => id === updatedUser.id
     );
+    if (foundUser == null) {
+      foundUser = this.props.userProfile.find(
+        ({ mobilenumber }) => mobilenumber == updatedUser.mobilenumber
+      );
+    }
+
     if (foundUser != null) {
       this.updateUser(updatedUser, foundUser.id);
     } else {
@@ -84,7 +103,9 @@ class UserProfilePage extends React.Component {
         id: "",
         firstname: "",
         lastname: "",
-        homeaddress: ""
+        homeaddress: "",
+        mobilenumber: "",
+        dateofbirth: new Date()
       }
     });
   };
@@ -146,18 +167,40 @@ class UserProfilePage extends React.Component {
               value={this.state.user.homeaddress}
             />
           </div>
+          <div className="form-group">
+            <label>Mobile Number</label>
+            <input
+              className="form-control"
+              type="text"
+              name="mobilenumber"
+              required
+              onChange={this.handleChange}
+              value={this.state.user.mobilenumber}
+            />
+          </div>
+          <div className="form-group">
+            <label>Date Of Birth</label>
+            <DateTimePicker
+              className="form-control"
+              name="dateofbirth"
+              onChange={this.handleChangeDate}
+              value={this.state.user.dateofbirth}
+            />
+          </div>
           <input type="submit" value="Save" className="btn btn-primary" />
         </form>
         <div className="container">
           {this.props.userProfile.map(user => (
-            <div className="row mt-3" key={user.firstname}>
-              <div className="col-sm-2">{user.firstname}</div>
+            <div className="row" key={user.firstname}>
+              <div className="col-sm-1">{user.firstname}</div>
               <div className="col-sm-2">{user.lastname}</div>
-              <div className="col-sm-2">{user.homeaddress}</div>
-              <div className="col-sm-3">
+              <div className="col-sm-3">{user.homeaddress}</div>
+              <div className="col-sm-2">{user.mobilenumber}</div>
+
+              <div className="col-sm-1">
                 <button onClick={() => this.editUser(user.id)}>Edit</button>
               </div>
-              <div className="col-sm-3 ">
+              <div className="col-sm-1 ">
                 <button onClick={() => this.removeUser(user.id)}>Remove</button>
               </div>
             </div>
