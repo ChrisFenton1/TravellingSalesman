@@ -30,15 +30,12 @@ class AddressPage extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this.props);
     
     if(this.props.match == null || this.props.match.params == null)
       return;
 
     //const { match: { params } } = this.props; //???
     var params = this.props.match.params;
-
-    console.log(params.addressId);
 
     var foundAddress = this.props.addresses.find(function(element) {
       return element.id == params.addressId;
@@ -49,7 +46,13 @@ class AddressPage extends React.Component {
       const address = {
         ...foundAddress
       };
+
+      address.fromDate = new Date(address.fromDate);
+      address.toDate = new Date(address.toDate);
+
       this.setState({ address });
+
+      console.log(address);
     }
   }
 
@@ -66,6 +69,9 @@ class AddressPage extends React.Component {
       ...this.state.address,
       fromDate: date
     };
+
+    console.log(address);
+
     this.setState({ address });
   };
 
@@ -83,12 +89,11 @@ class AddressPage extends React.Component {
     if(this.state.address.id != "") //edit
     {
       const address = {
-        ...this.state.address,
-        username: this.getCookie("username")
+        ...this.state.address
+        //username: this.getCookie("username")
       };
-  
-      //console.log(address.id);
-      //console.log(address.state);
+
+
 
       this.props.actions.editAddress(address);
       this.setState({editSuccess : true});
@@ -139,7 +144,7 @@ class AddressPage extends React.Component {
 
     if(this.state.editSuccess)
     {
-      return <Redirect to={"/calender/" + this.state.addressId} />;
+      return <Redirect to={"/calender"} />;
     }
     return (
       <form onSubmit={this.handleSubmit}>
@@ -228,6 +233,11 @@ class AddressPage extends React.Component {
             onChange={this.handleChangeToDate}
             value={this.state.address.toDate}
           />
+        </div>
+
+        <div className="form-group">
+          <label>User:&nbsp;</label>
+          <span>{this.state.address.username}</span>
         </div>
 
 
