@@ -52,10 +52,13 @@ class CalenderPage extends React.Component {
   {
     let resources = [];
     for (let index = 0; index < this.props.register.length; index++) {
+      console.log(this.props.register)
+      if(this.props.register[index].username != null){
       resources.push({
         id: this.props.register[index].username,
         name: this.props.register[index].username
       });
+    }
       
     }
     
@@ -84,11 +87,20 @@ class CalenderPage extends React.Component {
         }
       }
     }
+    
     schedulerData.setEvents(events);
   }
 
   formatDate = (dateObject) => {
-    return dateObject.toLocaleString();
+    return new Date(dateObject).toLocaleString('en-US');
+  }
+
+  onSelectDate = (schedulerData, date) => {
+    schedulerData.setDate(date);
+        schedulerData.setEvents(schedulerData);
+        this.setState({
+            viewModel: schedulerData
+        })
   }
 
   nextClick = (schedulerData)=> {
