@@ -11,7 +11,8 @@ class UserProfilePage extends React.Component {
     user: {
       id: "",
       firstname: "",
-      lastname: ""
+      lastname: "",
+      homeaddress: ""
     }
   };
 
@@ -78,6 +79,14 @@ class UserProfilePage extends React.Component {
       console.log(user.id);
       this.props.actions.addProfileUser(user);
     }
+    this.setState({
+      user: {
+        id: "",
+        firstname: "",
+        lastname: "",
+        homeaddress: ""
+      }
+    });
   };
 
   getCookie = function(cname) {
