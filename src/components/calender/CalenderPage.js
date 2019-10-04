@@ -14,6 +14,9 @@ import "react-big-scheduler/lib/css/style.css";
 import moment from "moment";
 import withDragDropContext from "./withDnDContext";
 
+import { bindActionCreators } from "redux";
+import * as addressActions from "../../redux/actions/addressActions";
+
 class CalenderPage extends React.Component {
   state = {
     viewModel: null,
@@ -31,7 +34,7 @@ class CalenderPage extends React.Component {
       {
         startResizable: false,
         endResizable: false,
-        movable: false,
+        movable: true,
         creatable: false
       }
     );
@@ -74,9 +77,9 @@ class CalenderPage extends React.Component {
             start: this.formatDate(userAddress.fromDate), //2019-08-17T04:49:44.144Z to "2017-12-18 09:30:00",
             end: this.formatDate(userAddress.toDate),
             resourceId: userAddress.username,
-            title: userAddress.address
+            title: userAddress.address,
             //resizable: false,
-            //movable: false
+            movable: true
           });
         }
       }
@@ -121,6 +124,35 @@ class CalenderPage extends React.Component {
     });  
   };
 
+  moveEvent = (schedulerData, event, slotId, slotName, start, end) => {
+      if(confirm(`Do you want to move the event? {eventId: ${event.id}, eventTitle: ${event.title}, newSlotId: ${slotId}, newSlotName: ${slotName}, newStart: ${start}, newEnd: ${end}`)) {
+        //update in store  
+        var addressId = event.id;
+
+        var foundAddress = this.props.addresses.find(function(element) {
+          return element.id == addressId;
+        });
+    
+        if(foundAddress != null)
+        {
+          console.log(foundAddress);
+          const address = {
+            ...foundAddress,
+            username: slotId,
+            fromDate: start,
+            toDate: end
+          };
+          console.log(address);
+          this.props.actions.editAddress(address);
+        }
+
+        //update in view
+        schedulerData.moveEvent(event, slotId, slotName, start, end);
+          this.setState({
+              viewModel: schedulerData
+          })
+      }
+  }
   render() {
     let schedulerData = this.state.viewModel;
 
@@ -139,6 +171,7 @@ class CalenderPage extends React.Component {
             onSelectDate={this.onSelectDate}
             onViewChange={this.onViewChange}
             eventItemClick={this.eventClicked}
+            moveEvent={this.moveEvent}
           />
         </div>
       </div>
@@ -148,13 +181,14 @@ class CalenderPage extends React.Component {
 
 CalenderPage.propTypes = {
   addresses: PropTypes.array.isRequired,
-  register: PropTypes.array.isRequired
+  register: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired
 };
 
 function mapDispatchToProps(dispatch) {
   return {
     //createCourse: course => dispatch(courseActions.createCourse(course)) //map action 1 by one
-    //actions: bindActionCreators(addressActions, dispatch) //map all actions
+    actions: bindActionCreators(addressActions, dispatch) //map all actions
   };
 }
 

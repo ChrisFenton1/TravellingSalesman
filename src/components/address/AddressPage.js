@@ -30,15 +30,12 @@ class AddressPage extends React.Component {
   }
 
   componentDidMount () {
-    console.log(this.props);
     
     if(this.props.match == null || this.props.match.params == null)
       return;
 
     //const { match: { params } } = this.props; //???
     var params = this.props.match.params;
-
-    console.log(params.addressId);
 
     var foundAddress = this.props.addresses.find(function(element) {
       return element.id == params.addressId;
@@ -86,9 +83,6 @@ class AddressPage extends React.Component {
         ...this.state.address,
         username: this.getCookie("username")
       };
-  
-      //console.log(address.id);
-      //console.log(address.state);
 
       this.props.actions.editAddress(address);
       this.setState({editSuccess : true});
@@ -228,6 +222,11 @@ class AddressPage extends React.Component {
             onChange={this.handleChangeToDate}
             value={this.state.address.toDate}
           />
+        </div>
+
+        <div className="form-group">
+          <label>User:&nbsp;</label>
+          <span>{this.state.address.username}</span>
         </div>
 
 
