@@ -15,9 +15,9 @@ const Header = () => {
 
       {/* Comment goes here */}
       {" | "}
-      <Link to="/about" activeStyle={activeStyle}>
+      <NavLink to="/about" activeStyle={activeStyle}>
         About
-      </Link>
+      </NavLink>
       {" | "}
       <NavLink to="/address" activeStyle={activeStyle}>
         Address
