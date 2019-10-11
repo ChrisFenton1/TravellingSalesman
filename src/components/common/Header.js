@@ -30,7 +30,7 @@ const Header = () => {
       <NavLink to="/login" activeStyle={activeStyle}>
         Login
       </NavLink>
-      {" | "}      
+      {" | "}
       <a
         href="#"
         onClick={() => {
@@ -52,7 +52,7 @@ const Header = () => {
       </NavLink>
       {" | "}
       <NavLink to="/userprofile" activeStyle={activeStyle}>
-        User Profile
+        User List Information
       </NavLink>
     </nav>
   );

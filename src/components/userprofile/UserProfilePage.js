@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { bindActionCreators } from "redux";
 import { Redirect } from "react-router-dom";
 import DateTimePicker from "react-datetime-picker";
-
 import * as userProfileActions from "../../redux/actions/userProfileActions";
+import ToggleDisplay from "react-toggle-display";
 
 class UserProfilePage extends React.Component {
   state = {
@@ -16,11 +16,22 @@ class UserProfilePage extends React.Component {
       homeaddress: "",
       mobilenumber: "",
       dateofbirth: new Date()
-    }
+    },
+    show: false
   };
 
   constructor(props) {
     super(props);
+    this.toggleDiv = this.toggleDiv.bind(this);
+  }
+  toggleDiv = () => {
+    const { show } = this.state.show;
+    this.setState({ show: !show });
+  };
+  handleClick() {
+    this.setState({
+      show: !this.state.show
+    });
   }
 
   editUser = function(userId) {
@@ -129,83 +140,82 @@ class UserProfilePage extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <h3>Welcome {this.getCookie("username")} !!!!</h3>
-
-          <div className="form-group">
-            <label>First Name</label>
-            <input
-              className="form-control"
-              type="text"
-              name="firstname"
-              required
-              onChange={this.handleChange}
-              value={this.state.user.firstname}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Last Name</label>
-            <input
-              className="form-control"
-              type="text"
-              name="lastname"
-              required
-              onChange={this.handleChange}
-              value={this.state.user.lastname}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Home Address</label>
-            <input
-              className="form-control"
-              type="text"
-              name="homeaddress"
-              required
-              onChange={this.handleChange}
-              value={this.state.user.homeaddress}
-            />
-          </div>
-          <div className="form-group">
-            <label>Mobile Number</label>
-            <input
-              className="form-control"
-              type="text"
-              name="mobilenumber"
-              required
-              onChange={this.handleChange}
-              value={this.state.user.mobilenumber}
-            />
-          </div>
-          <div className="form-group">
-            <label>Date Of Birth</label>
-            <DateTimePicker
-              className="form-control"
-              name="dateofbirth"
-              onChange={this.handleChangeDate}
-              value={this.state.user.dateofbirth}
-            />
-          </div>
-          <input type="submit" value="Save" className="btn btn-primary" />
-        </form>
-        <div className="container">
-          {this.props.userProfile.map(user => (
-            <div className="row" key={user.firstname}>
-              <div className="col-sm-1">{user.firstname}</div>
-              <div className="col-sm-2">{user.lastname}</div>
-              <div className="col-sm-3">{user.homeaddress}</div>
-              <div className="col-sm-2">{user.mobilenumber}</div>
-
-              <div className="col-sm-1">
-                <button onClick={() => this.editUser(user.id)}>Edit</button>
-              </div>
-              <div className="col-sm-1 ">
-                <button onClick={() => this.removeUser(user.id)}>Remove</button>
-              </div>
+        <h3>Welcome {this.getCookie("username")} !!!!</h3>
+        {this.props.userProfile.map(user => (
+          <div className="row" key={user.firstname}>
+            <div className="col-sm-1">{user.firstname}</div>
+            <div className="col-sm-2">{user.lastname}</div>
+            <div className="col-sm-3">{user.homeaddress}</div>
+            <div className="col-sm-2">{user.mobilenumber}</div>
+            <div className="col-sm-2">
+              <button onClick={() => this.editUser(user.id)}>Edit</button>
             </div>
-          ))}
-        </div>
+            <div className="col-sm-2">
+              <button onClick={() => this.removeUser(user.id)}>Remove</button>
+            </div>
+          </div>
+        ))}
+
+        <button onClick={() => this.handleClick()}>Add User</button>
+        <ToggleDisplay show={this.state.show}>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label>First Name</label>
+              <input
+                className="form-control"
+                type="text"
+                name="firstname"
+                required
+                onChange={this.handleChange}
+                value={this.state.user.firstname}
+              />
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
+              <input
+                className="form-control"
+                type="text"
+                name="lastname"
+                required
+                onChange={this.handleChange}
+                value={this.state.user.lastname}
+              />
+            </div>
+            <div className="form-group">
+              <label>Home Address</label>
+              <input
+                className="form-control"
+                type="text"
+                name="homeaddress"
+                required
+                onChange={this.handleChange}
+                value={this.state.user.homeaddress}
+              />
+            </div>
+            <div className="form-group">
+              <label>Mobile Number</label>
+              <input
+                className="form-control"
+                type="text"
+                name="mobilenumber"
+                required
+                onChange={this.handleChange}
+                value={this.state.user.mobilenumber}
+              />
+            </div>
+            <div className="form-group">
+              <label>Date Of Birth</label>
+            </div>
+            <div className="form-group">
+              <DateTimePicker
+                name="dateofbirth"
+                onChange={this.handleChangeDate}
+                value={this.state.user.dateofbirth}
+              />
+            </div>
+            <input type="submit" value="Save" className="btn btn-primary" />
+          </form>
+        </ToggleDisplay>
       </div>
     );
   }
