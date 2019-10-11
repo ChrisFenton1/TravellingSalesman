@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link,NavLink } from "react-router-dom";
 
 const Header = () => {
   const activeStyle = { color: "#F15B2A" };
@@ -15,9 +15,9 @@ const Header = () => {
 
       {/* Comment goes here */}
       {" | "}
-      <NavLink to="/about" activeStyle={activeStyle}>
+      <Link to="/about" activeStyle={activeStyle}>
         About
-      </NavLink>
+      </Link>
       {" | "}
       <NavLink to="/address" activeStyle={activeStyle}>
         Address
@@ -40,7 +40,7 @@ const Header = () => {
           var expires = "expires=" + d.toUTCString();
           document.cookie = "username" + "=" + ";" + expires + ";path=/";
           //console.log(document.cookie);
-          window.location.href = "/login";
+          window.location.href = "/React";
           return;
         }}
       >
