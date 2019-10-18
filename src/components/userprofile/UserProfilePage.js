@@ -6,6 +6,8 @@ import { Redirect } from "react-router-dom";
 import DateTimePicker from "react-datetime-picker";
 import * as userProfileActions from "../../redux/actions/userProfileActions";
 import ToggleDisplay from "react-toggle-display";
+import Pagination from "../Pagination.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 class UserProfilePage extends React.Component {
   state = {
@@ -17,19 +19,34 @@ class UserProfilePage extends React.Component {
       mobilenumber: "",
       dateofbirth: new Date()
     },
-    show: false
+    show: false,
+    exampleItems: [],
+    pageOfItems: []
   };
 
   constructor(props) {
     super(props);
+
+    this.state.exampleItems = [...Array(150).keys()].map(i => ({
+      id: i + 1,
+      name: "Item " + (i + 1)
+    }));
+    //this.state.exampleItems = this.props.userProfile;
+
     this.toggleDiv = this.toggleDiv.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
+
+  onChangePage(pageOfItems) {
+    // update state with new page of items
+    this.setState({ pageOfItems: pageOfItems });
+  }
+
   toggleDiv = () => {
     const { show } = this.state.show;
     this.setState({ show: !show });
   };
   handleClick() {
-    debugger;
     this.setState({
       show: !this.state.show
     });
@@ -146,7 +163,7 @@ class UserProfilePage extends React.Component {
     return (
       <div>
         <h3>Welcome {this.getCookie("username")} !!!!</h3>
-        <div className="container">
+        {/* <div className="container">
           {this.props.userProfile.map(user => (
             <div className="row" key={user.firstname}>
               <div className="col-sm-2">{user.firstname}</div>
@@ -161,7 +178,37 @@ class UserProfilePage extends React.Component {
               </div>
             </div>
           ))}
-          <div ClassName="w-100"></div>
+        </div> */}
+        <div className="container">
+          <div className="text-center">
+            {this.state.pageOfItems.map(user => (
+              <div className="row" key={user.firstname}>
+                <div className="col-sm-2">{user.firstname}</div>
+                <div className="col-sm-2">{user.lastname}</div>
+                <div className="col-sm-3">{user.homeaddress}</div>
+                <div className="col-sm-2">{user.mobilenumber}</div>
+                <div className="col-sm-1">
+                  <button onClick={() => this.editUser(user.id)}>Edit</button>
+                </div>
+                <div className="col-sm-2">
+                  <button onClick={() => this.removeUser(user.id)}>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+            <Pagination
+              items={this.props.userProfile}
+              onChangePage={this.onChangePage}
+            />
+            {/* {this.state.pageOfItems.map(item => (
+              <div key={item.id}>{item.name}</div>
+            ))}
+            <Pagination
+              items={this.state.exampleItems}
+              onChangePage={this.onChangePage}
+            /> */}
+          </div>
         </div>
 
         <button onClick={() => this.handleClick()}>Add User</button>
