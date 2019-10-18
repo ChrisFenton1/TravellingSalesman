@@ -29,6 +29,7 @@ class UserProfilePage extends React.Component {
     this.setState({ show: !show });
   };
   handleClick() {
+    debugger;
     this.setState({
       show: !this.state.show
     });
@@ -40,7 +41,10 @@ class UserProfilePage extends React.Component {
       const user = {
         ...foundUser
       };
-      this.setState({ user });
+      this.setState({
+        user,
+        show: true
+      });
     }
   };
 
@@ -117,7 +121,8 @@ class UserProfilePage extends React.Component {
         homeaddress: "",
         mobilenumber: "",
         dateofbirth: new Date()
-      }
+      },
+      show: !this.state.show
     });
   };
 
@@ -141,20 +146,23 @@ class UserProfilePage extends React.Component {
     return (
       <div>
         <h3>Welcome {this.getCookie("username")} !!!!</h3>
-        {this.props.userProfile.map(user => (
-          <div className="row" key={user.firstname}>
-            <div className="col-sm-1">{user.firstname}</div>
-            <div className="col-sm-2">{user.lastname}</div>
-            <div className="col-sm-3">{user.homeaddress}</div>
-            <div className="col-sm-2">{user.mobilenumber}</div>
-            <div className="col-sm-2">
-              <button onClick={() => this.editUser(user.id)}>Edit</button>
+        <div className="container">
+          {this.props.userProfile.map(user => (
+            <div className="row" key={user.firstname}>
+              <div className="col-sm-2">{user.firstname}</div>
+              <div className="col-sm-2">{user.lastname}</div>
+              <div className="col-sm-3">{user.homeaddress}</div>
+              <div className="col-sm-2">{user.mobilenumber}</div>
+              <div className="col-sm-1">
+                <button onClick={() => this.editUser(user.id)}>Edit</button>
+              </div>
+              <div className="col-sm-2">
+                <button onClick={() => this.removeUser(user.id)}>Remove</button>
+              </div>
             </div>
-            <div className="col-sm-2">
-              <button onClick={() => this.removeUser(user.id)}>Remove</button>
-            </div>
-          </div>
-        ))}
+          ))}
+          <div ClassName="w-100"></div>
+        </div>
 
         <button onClick={() => this.handleClick()}>Add User</button>
         <ToggleDisplay show={this.state.show}>
