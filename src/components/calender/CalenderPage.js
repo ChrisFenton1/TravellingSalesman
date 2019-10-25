@@ -136,6 +136,25 @@ class CalenderPage extends React.Component {
     });  
   };
 
+formatDate = (dateObject) => {
+    return new Date(dateObject).toLocaleString('en-US');
+  }
+
+validateDates = (username, start, end) => {
+    const foundAddress = this.props.addresses.filter(
+      x => x.username == username && 
+      (((new Date(x.fromDate) <= new Date(start)) && (new Date(x.toDate) >= new Date(start))) ||
+      ((new Date(x.fromDate) <= new Date(end)) && (new Date(x.toDate) >= new Date(end))) )
+    );
+
+    console.log(foundAddress.length);
+    if(foundAddress.length > 0){
+      alert('There are overlapping address data for this user. Cannot change!!');
+      return false;
+    }
+    return true;
+  }
+
   moveEvent = (schedulerData, event, slotId, slotName, start, end) => {
     // eslint-disable-next-line no-restricted-globals  
     if(confirm(`Do you want to move the event? {eventId: ${event.id}, eventTitle: ${event.title}, newSlotId: ${slotId}, newSlotName: ${slotName}, newStart: ${start}, newEnd: ${end}`)) {
@@ -145,25 +164,25 @@ class CalenderPage extends React.Component {
         var foundAddress = this.props.addresses.find(function(element) {
           return element.id == addressId;
         });
-    
-        if(foundAddress != null)
-        {
-          console.log(foundAddress);
-          const address = {
-            ...foundAddress,
-            username: slotId,
-            fromDate: start,
-            toDate: end
-          };
-          console.log(address);
-          this.props.actions.editAddress(address);
-        }
+        if(this.validateDates(slotId, start, end)){
+            if(foundAddress != null)
+            {         
+              const address = {
+                ...foundAddress,
+                username: slotId,
+                fromDate: start,
+                toDate: end
+              };
+              console.log(address);
+              this.props.actions.editAddress(address);
+            }
 
-        //update in view
-        schedulerData.moveEvent(event, slotId, slotName, start, end);
-          this.setState({
-              viewModel: schedulerData
-          })
+            //update in view
+            schedulerData.moveEvent(event, slotId, slotName, start, end);
+              this.setState({
+                  viewModel: schedulerData
+              })
+          }
       }
   }
   render() {

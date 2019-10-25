@@ -83,9 +83,23 @@ class AddressPage extends React.Component {
     this.setState({ address });
   };
 
+  validateDates = (addressObject) => {        
+    const foundAddress = this.props.addresses.filter(
+      x => x.username == this.state.address.username && 
+      (((this.formatDate(x.fromDate) <= this.formatDate(addressObject.fromDate)) && (this.formatDate(x.toDate) >= this.formatDate(addressObject.fromDate))) ||
+      ((this.formatDate(x.fromDate) <= this.formatDate(addressObject.toDate)) && (this.formatDate(x.toDate) >= this.formatDate(addressObject.toDate))) )
+    );
+
+    console.log(foundAddress);
+    if(foundAddress.length > 0){
+      alert('There are overlapping address data for this user. Cannot change!!');
+      return false;
+    }
+    return true;
+  }
+
   handleSubmit = event => {
     event.preventDefault();
-
     if(this.state.address.id != "") //edit
     {
       const address = {
@@ -93,13 +107,11 @@ class AddressPage extends React.Component {
         //username: this.getCookie("username")
       };
 
-
-
-      this.props.actions.editAddress(address);
-      this.setState({editSuccess : true});
-      //<Redirect to={"/calender/" + this.state.addressId} />;
-      
-
+      if(this.validateDates(address)){
+        this.props.actions.editAddress(address);
+        this.setState({editSuccess : true});
+      }
+      //<Redirect to={"/calender/" + this.state.addressId} />;      
     }
     else{ //new 
       const address = {
@@ -107,10 +119,10 @@ class AddressPage extends React.Component {
         id: create_UUID(),
         username: this.getCookie("username")
       };
-  
-      this.props.actions.addAddress(address);
-    }
-    
+      if(this.validateDates(address)){
+        this.props.actions.addAddress(address);
+      }
+    }    
   };
 
   removeAddress = id => event => {
@@ -139,6 +151,9 @@ class AddressPage extends React.Component {
     }
     return "";
   };
+  formatDate = (dateObject) => {
+    return new Date(dateObject).toLocaleString('en-US');
+  }
 
   render() {    
 
