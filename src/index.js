@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { HashRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import App from "./components/App";
+import App from "./containers/App";
 import "./index.css";
 import configureStore from "./redux/configureStore";
 import { Provider as ReduxProvider } from "react-redux";
@@ -27,9 +27,9 @@ store.subscribe(() => {
 render(
   <ReduxProvider store={store}>
     
-    <HashRouter>
+    {/* <HashRouter> */}
       <App />
-    </HashRouter>
+    {/* </HashRouter> */}
   </ReduxProvider>,
   document.getElementById("app")
 );
