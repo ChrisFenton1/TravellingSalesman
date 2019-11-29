@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import selectRegisterContainer from '../RegisterContainer/selectors';
 
 /**
  * Direct selector to the loginContainer state domain
@@ -16,7 +17,8 @@ const selectLoginContainerDomain = () => state => state.get('loginContainer');
 
 const selectLoginContainer = () => createSelector(
   selectLoginContainerDomain(),
-  (substate) => (substate ? substate.toJS() : {})
+  selectRegisterContainer(),
+  (substate, registerSubstate) => Object.assign(substate ? substate.toJS() : {}, registerSubstate)
 );
 
 export default selectLoginContainer;

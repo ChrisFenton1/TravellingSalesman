@@ -9,10 +9,11 @@ import {
   CANCEL_LOGIN,
 } from './constants';
 
-export function login(email) {
+export function login(username, password) {
   return {
     type: LOGIN,
-    email,
+    username,
+    password,
   };
 }
 

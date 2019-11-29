@@ -7,7 +7,7 @@
 import React from 'react';
 
 import styles from './styles.css';
-import validator from 'email-validator';
+// import validator from 'email-validator';
 import TextInput from '../TextInput';
 
 class Login extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -19,19 +19,23 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
   state = {};
 
   login = () => {
-    const email = this.emailField.value();
-    if (!validator.validate(email)) {
-      this.setState({
-        errorText: 'Please provide a valid email',
-      });
-      return;
-    }
+    const username = this.usernameField.value();
+    const password = this.passwordField.value;
+
+    // if (!validator.validate(email)) {
+    //   this.setState({
+    //     errorText: 'Please provide a valid email',
+    //   });
+    //   return;
+    // }
+
+    // TODO: validation
 
     this.setState({
       errorText: null,
     });
 
-    this.props.login(email);
+    this.props.login(username, password);
   }
 
   render() {
@@ -44,11 +48,21 @@ class Login extends React.Component { // eslint-disable-line react/prefer-statel
         </div>
 
         <TextInput
-          placeholder="Your email"
-          ref={(f) => { this.emailField = f; }}
+          placeholder="Your username"
+          ref={(f) => { this.usernameField = f; }}
           errorText={this.state.errorText}
         />
 
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            className="form-control"
+            type="password"
+            name="password"
+            required
+            ref={(f) => { this.passwordField = f; }}
+          />
+        </div>
 
         <div
           className={styles.actionContainer}

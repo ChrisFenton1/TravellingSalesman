@@ -24,7 +24,7 @@ const mapStateToProps = selectLoginContainer();
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: (email) => dispatch(login(email)),
+    login: (username, password) => dispatch(login(username, password)),
     cancelLogin: () => dispatch(cancelLogin()),
   };
 }
