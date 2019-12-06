@@ -5,6 +5,10 @@ export function* defaultSaga() {
   return;
 }
 
+export function* doLoginSaga() {
+  yield* takeLatest(LOGIN, handleLogin);
+}
+
 // All sagas to be loaded
 export default [
   defaultSaga,

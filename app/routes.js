@@ -141,6 +141,46 @@ export default function createRoutes(store) {
             importModules.catch(errorLoading);
           },
         }, {
+          path: '/addAddress',
+          name: 'addressFormContainer',
+          getComponent(nextState, cb) {
+            const importModules = Promise.all([
+              System.import('containers/AddressFormContainer/reducer'),
+              System.import('containers/AddressFormContainer/sagas'),
+              System.import('containers/AddressFormContainer'),
+            ]);
+
+            const renderRoute = loadModule(cb);
+
+            importModules.then(([reducer, sagas, component]) => {
+              injectReducer('addressFormContainer', reducer.default);
+              injectSagas('addressFormContainer', sagas.default);
+              renderRoute(component);
+            });
+
+            importModules.catch(errorLoading);
+          },
+        }, {
+          path: '/editAddress',
+          name: 'addressFormContainer',
+          getComponent(nextState, cb) {
+            const importModules = Promise.all([
+              System.import('containers/AddressFormContainer/reducer'),
+              System.import('containers/AddressFormContainer/sagas'),
+              System.import('containers/AddressFormContainer'),
+            ]);
+
+            const renderRoute = loadModule(cb);
+
+            importModules.then(([reducer, sagas, component]) => {
+              injectReducer('addressFormContainer', reducer.default);
+              injectSagas('addressFormContainer', sagas.default);
+              renderRoute(component);
+            });
+
+            importModules.catch(errorLoading);
+          },
+        }, {
           path: '*',
           name: 'notfound',
           getComponent(nextState, cb) {
